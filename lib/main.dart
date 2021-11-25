@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, avoid_print, unnecessary_brace_in_string_interps
 
 import 'package:flutter/material.dart';
 
@@ -34,6 +34,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  TextEditingController quantity = TextEditingController();
+  TextEditingController price = TextEditingController();
+  TextEditingController result = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    result.text =
+        "Buy x Bhug Apple. Because each Bhug Apple cost x THB, you have to pay x THB";
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -64,24 +75,53 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      controller: quantity,
                       decoration: InputDecoration(
-                          labelText: "Apple Amount",
+                          labelText: "Bhug Apple Amount",
+                          border: OutlineInputBorder()),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: price,
+                      decoration: InputDecoration(
+                          labelText: "Bhug Apple Price",
                           border: OutlineInputBorder()),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                     child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Calculated"),
+                      onPressed: () {
+                        if (quantity.text.isEmpty && price.text.isEmpty) {
+                          print("Input can't be null!!!!");
+                          setState(() {
+                            result.text = "Input can't be null!!!!";
+                          });
+                        } else {
+                          var cal = double.parse(quantity.text) *
+                              double.parse(price.text);
+                          print(
+                              "Bhug Apple quantity: ${quantity.text}, Bhug Apple price: ${price.text}, Total price: ${cal} THB");
+                          setState(() {
+                            result.text =
+                                "Buy ${quantity.text} Bhug Apple. Because each Bhug Apple cost ${price.text} THB, you have to pay ${cal} THB";
+                          });
+                        }
+                      },
+                      child: Text("Calculate"),
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.green),
-                      ),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.green),
+                          padding: MaterialStateProperty.all(
+                              EdgeInsets.fromLTRB(50, 20, 50, 20))),
                     ),
                   ),
                   Text(
-                      "Buy 5 Bhug Apple. Because each Bhug Apple cost 1,000 THB, you have to pay 5,000 THB")
+                    result.text,
+                    style: TextStyle(color: Colors.green, fontSize: 20),
+                  )
                 ],
               ),
             ))
