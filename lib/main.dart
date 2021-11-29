@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   Image.asset(
-                    "apple.png",
+                    "assets/apple.png",
                     width: 200,
                   ),
                   GradientText(

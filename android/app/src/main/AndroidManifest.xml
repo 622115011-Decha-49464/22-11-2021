@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.three">
    <application
-        android:label="three"
+        android:label="Bhug Apple Calculator"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
